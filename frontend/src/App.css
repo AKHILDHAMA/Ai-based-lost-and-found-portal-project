@@ -1,0 +1,137 @@
+/* =========================
+   PREMIUM 3D NAVBAR
+========================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 16px 30px;
+  margin: 15px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 40, 0.85),
+    rgba(60, 60, 120, 0.85)
+  );
+
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  transform-style: preserve-3d;
+  transition: all 0.4s ease;
+}
+
+.navbar:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+   NAV LINKS
+========================= */
+
+.navbar a {
+  position: relative;
+  text-decoration: none;
+
+  padding: 10px 18px;
+  border-radius: 12px;
+
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  transition: all 0.35s ease;
+}
+
+.navbar a:hover {
+  transform: translateY(-2px) scale(1.05);
+
+  background: linear-gradient(
+    135deg,
+    #6a5cff,
+    #9f7cff
+  );
+
+  box-shadow:
+    0 8px 18px rgba(106, 92, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* =========================
+   NAV BUTTONS (Dark, Sound, Logout)
+========================= */
+
+.navbar button {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    #ff7a18,
+    #ffb347
+  );
+
+  box-shadow:
+    0 6px 15px rgba(255, 122, 24, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  transition: all 0.35s ease;
+}
+
+.navbar button:hover {
+  transform: translateY(-2px) scale(1.05);
+
+  box-shadow:
+    0 10px 25px rgba(255, 122, 24, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* =========================
+   NOTIFICATION ICON FIX
+========================= */
+
+.navbar .notification-bar {
+  margin-left: auto;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar a,
+  .navbar button {
+    width: 100%;
+    text-align: center;
+  }
+}
