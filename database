@@ -1,0 +1,156 @@
+-- ==============================
+-- 1. DATABASE
+-- ==============================
+CREATE DATABASE IF NOT EXISTS lostfound_db;
+USE lostfound_db;
+
+
+-- ==============================
+-- 2. USERS TABLE
+-- ==============================
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  verified TINYINT(1) DEFAULT 0,
+  verification_token VARCHAR(255)
+);
+
+
+-- ==============================
+-- 3. ITEMS TABLE
+-- ==============================
+CREATE TABLE items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  description TEXT,
+  image VARCHAR(255),
+  imageUrl VARCHAR(255),
+  type VARCHAR(50),
+  status ENUM('lost', 'found') NOT NULL,
+  
+  user_email VARCHAR(100),
+  user_id INT,
+  
+  location VARCHAR(255),
+  location_text TEXT,
+  latitude VARCHAR(50),
+  longitude VARCHAR(50),
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(id)
+  ON DELETE SET NULL
+);
+
+
+-- ==============================
+-- 4. CHAT MESSAGES TABLE
+-- ==============================
+CREATE TABLE chat_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT NOT NULL,
+  receiver_id INT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+-- ==============================
+-- 5. MATCHES TABLE
+-- ==============================
+CREATE TABLE matches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  lost_item_id INT,
+  found_item_id INT,
+  score FLOAT,
+  status ENUM('suggested','confirmed','rejected') DEFAULT 'suggested',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 6. NOTIFICATIONS TABLE
+-- ==============================
+CREATE TABLE notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_email VARCHAR(100) NOT NULL,
+  title VARCHAR(255),
+  body TEXT,
+  is_read TINYINT(1) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 7. CLAIMS TABLE
+-- ==============================
+CREATE TABLE claims (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  item_id INT NOT NULL,
+  claimant_id INT NOT NULL,
+  answers TEXT,
+  status ENUM('pending','approved','rejected') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 8. ALERT SUBSCRIPTIONS TABLE
+-- ==============================
+CREATE TABLE alert_subscriptions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_email VARCHAR(100),
+  item_keyword VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 9. RECOVERY STORIES TABLE
+-- ==============================
+CREATE TABLE recovery_stories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  item_name VARCHAR(255),
+  location VARCHAR(255),
+  story TEXT,
+  image VARCHAR(255),
+  recovery_date DATE,
+  user_email VARCHAR(100),
+  date_posted TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 10. STORY COMMENTS TABLE
+-- ==============================
+CREATE TABLE story_comments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  story_id INT,
+  user_email VARCHAR(100),
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ==============================
+-- 11. TESTING / QUERIES
+-- ==============================
+SHOW TABLES;
+
+DESCRIBE users;
+DESCRIBE items;
+DESCRIBE claims;
+
+SELECT * FROM users;
+SELECT * FROM items ORDER BY created_at DESC;
+SELECT * FROM matches;
+SELECT * FROM notifications;
+SELECT * FROM chat_messages;
+SELECT * FROM claims;
+SELECT * FROM recovery_stories;
+SELECT * FROM story_comments;
